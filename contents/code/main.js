@@ -1,4 +1,5 @@
 var browsers = {
+  brave: "Picture in picture",
   chromium: "Picture in picture",
   firefox: "Picture-in-Picture",
 };
