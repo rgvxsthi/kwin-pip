@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name=""/>
+  <group name="General">
+    <entry name="HeightPercent" type="Int">
+      <label>PiP height as a percentage of the screen height</label>
+      <default>25</default>
+      <min>10</min>
+      <max>90</max>
+    </entry>
+    <entry name="Corner" type="Enum">
+      <label>Screen corner to anchor the PiP window</label>
+      <choices>
+        <choice name="TopLeft"/>
+        <choice name="TopRight"/>
+        <choice name="BottomLeft"/>
+        <choice name="BottomRight"/>
+      </choices>
+      <default>BottomRight</default>
+    </entry>
+    <entry name="Margin" type="Int">
+      <label>Gap in pixels between the PiP window and the screen edges</label>
+      <default>0</default>
+      <min>0</min>
+      <max>400</max>
+    </entry>
+    <entry name="KeepAbove" type="Bool">
+      <label>Keep the PiP window above all other windows</label>
+      <default>true</default>
+    </entry>
+    <entry name="SkipTaskbar" type="Bool">
+      <label>Hide the PiP window from the taskbar</label>
+      <default>true</default>
+    </entry>
+  </group>
+</kcfg>

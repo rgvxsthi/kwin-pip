@@ -6,7 +6,7 @@
     "Icon": "preferences-system-windows",
     "Id": "kwin-pip",
     "License": "GPLv3",
-    "Version": "0.2",
+    "Version": "0.3",
     "Authors": [
       {
         "Name": "Joel Kurian"
