@@ -1,0 +1,60 @@
+name: Build and release .kwinscript
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read version and build filename
+        id: meta
+        run: |
+          VERSION="$(jq -r '.KPlugin.Version' metadata.json)"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "file=kwin-pip-$VERSION.kwinscript" >> "$GITHUB_OUTPUT"
+
+      - name: Build .kwinscript package
+        run: |
+          # A .kwinscript is a zip with metadata.json + contents/ at the root,
+          # which is exactly what `kpackagetool6 -i <file>` expects.
+          zip -r "${{ steps.meta.outputs.file }}" metadata.json contents LICENSE -x '*/.*'
+          echo "Package contents:"
+          unzip -l "${{ steps.meta.outputs.file }}"
+
+      - name: Determine release tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=v${{ steps.meta.outputs.version }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create or update release and upload asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${{ steps.tag.outputs.tag }}"
+          FILE="${{ steps.meta.outputs.file }}"
+          NOTES="PiP for KWin (Wayland) ${TAG}.
+
+          Install:
+          \`\`\`
+          kpackagetool6 --type=KWin/Script -i ${FILE}
+          \`\`\`
+          Or use System Settings > Window Management > KWin Scripts > Install from File."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$FILE" --clobber
+          else
+            gh release create "$TAG" "$FILE" --title "$TAG" --notes "$NOTES"
+          fi

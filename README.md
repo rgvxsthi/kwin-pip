@@ -45,7 +45,31 @@ $ kpackagetool6 --type=KWin/Script -i ./kwin-pip
 ```
 Then enable it from "System Settings" > "Window Management" > "KWin Scripts" > "PiP for KWin(Wayland)".
 
+### Install from a release
+
+Download the `.kwinscript` from the [Releases](https://github.com/rgvxsthi/kwin-pip/releases)
+page, then either:
+
+```bash
+$ kpackagetool6 --type=KWin/Script -i kwin-pip-<version>.kwinscript
+```
+
+or use "System Settings" > "Window Management" > "KWin Scripts" > "Install from File".
+
 ## Uninstall
 ```bash
 $ kpackagetool6 --type=KWin/Script -r kwin-pip
 ```
+
+## Releasing (maintainers)
+
+Bump `Version` in `metadata.json`, then push a matching tag:
+
+```bash
+$ git tag v0.3
+$ git push origin v0.3
+```
+
+A GitHub Action ([.github/workflows/release.yml](.github/workflows/release.yml))
+builds `kwin-pip-<version>.kwinscript` and publishes it as a release asset for
+that tag automatically.
