@@ -6,6 +6,8 @@ var browsers = {
   waterfox: "Picture-in-Picture",
 };
 
+var pipHeightRatio = 0.25;
+
 function isPip(window) {
   return (
     window.normalWindow &&
@@ -14,19 +16,30 @@ function isPip(window) {
   );
 }
 
+function placeGeometry(window) {
+  // clientArea() is per-monitor and excludes panels; it carries the monitor's
+  // x/y offset, so add them to land in the correct screen's bottom-right corner.
+  var area = workspace.clientArea(KWin.MaximizeArea, window);
+  var height = area.height * pipHeightRatio;
+  var width = (window.width * height) / window.height;
+  var x = area.x + area.width - width;
+  var y = area.y + area.height - height;
+
+  window.frameGeometry = { x, y, width, height };
+}
+
 function applyPip(window) {
   if (!isPip(window)) return;
 
-  var area = workspace.clientArea(KWin.MaximizeArea, window);
-  var pipHeightRatio = 0.25;
-  var height = workspace.workspaceHeight * pipHeightRatio;
-  var width = (window.width * height) / window.height;
-  var x = area.width - width;
-  var y = area.height - height;
-
-  window.frameGeometry = { x, y, width, height };
   window.skipTaskbar = true;
   window.keepAbove = true;
+
+  // Place once so the user can freely move/resize afterwards; later caption
+  // events won't snap it back to the corner.
+  if (!window.pipPlaced) {
+    placeGeometry(window);
+    window.pipPlaced = true;
+  }
 }
 
 function trackWindow(window) {
