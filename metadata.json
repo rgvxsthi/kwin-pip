@@ -10,9 +10,12 @@
     "Authors": [
       {
         "Name": "Joel Kurian"
+      },
+      {
+        "Name": "rgvxsthi"
       }
     ],
-    "Website": "https://github.com/joelkurian/kwin-pip"
+    "Website": "https://github.com/rgvxsthi/kwin-pip"
   },
   "X-Plasma-API": "javascript",
   "X-Plasma-MainScript": "code/main.js",
