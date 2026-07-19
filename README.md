@@ -1,6 +1,6 @@
 # kwin-pip
 
-KWin script for Picture-in-Picture in Wayland. Supports Firefox, Chromium, Chrome, and Brave.
+KWin script for Picture-in-Picture in Wayland. Supports Firefox, Waterfox, Chromium, Chrome, and Brave.
 
 Automatically pins the browser's Picture-in-Picture window to the bottom-right
 corner, sizes it to 35% of the screen height, hides it from the taskbar, and

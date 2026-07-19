@@ -3,6 +3,7 @@ var browsers = {
   chromium: "Picture in picture",
   "google-chrome": "Picture in picture",
   firefox: "Picture-in-Picture",
+  waterfox: "Picture-in-Picture",
 };
 
 function isPip(window) {
@@ -17,7 +18,7 @@ function applyPip(window) {
   if (!isPip(window)) return;
 
   var area = workspace.clientArea(KWin.MaximizeArea, window);
-  var pipHeightRatio = 0.35;
+  var pipHeightRatio = 0.25;
   var height = workspace.workspaceHeight * pipHeightRatio;
   var width = (window.width * height) / window.height;
   var x = area.width - width;
